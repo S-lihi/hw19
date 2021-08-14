@@ -88,7 +88,7 @@ const editButton = document.querySelector('.results')
 editButton.addEventListener('click', e => {
   const li = e.target.closest('li')
   if (e.target.innerHTML === '✖') {
-    items.splice(items[li.id],1)
+    items.splice(li.id,1)    
     resultsElem.showResults(items)
   } else if (e.target.innerHTML === '✎') {
     const cloneLi = li.cloneNode(true)
