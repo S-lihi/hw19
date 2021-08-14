@@ -1,26 +1,24 @@
-let items =[]
-if (localStorage.length === 0){
-  items = ["Молоко", "Орехи", "Кофе", "Сахар", "Хлеб", "Йогурт", "Сок", "Бананы", "Мандарины", "Шоколад", "Печенье"];
-} else{
-  items = (JSON.parse(localStorage.items))
-}
+const items = ["Молоко", "Орехи", "Кофе", "Сахар", "Хлеб", "Йогурт", "Сок", "Бананы", "Мандарины", "Шоколад", "Печенье"]
 
 const wrapper = document.querySelector('.wrapper')
 
 class Results {
   elemLink
   constructor(className) {
-    this.createElement(className)
-  }
-  createElement(className) {
     this.elemLink = document.createElement('ul')
     this.elemLink.className = className
-    items.forEach(element => this.elemLink.innerHTML += `<li>${element}</li>`);
+    this.showResults(items)
     wrapper.appendChild(this.elemLink)
   }
   showResults(results) {
     this.elemLink.innerHTML = ''
-    results.forEach(element => this.elemLink.innerHTML += `<li>${element}</li>`);
+    results.forEach((element, index) => this.elemLink.innerHTML += `<li id="${index}">
+    <div>${element}</div>
+    <span>
+      <button>&#9998;</button>
+      <button>&#10006;</button>
+    </span>
+  </li>`);
   }
 }
 
@@ -85,3 +83,26 @@ class Search {
 const resultsElem = new Results('results')
 const buttonElem = new Button('addButton', resultsElem)
 const searchElem = new Search('search', 'Найти / Создать', buttonElem)
+
+const editButton = document.querySelector('.results')
+editButton.addEventListener('click', e => {
+  const li = e.target.closest('li')
+  if (e.target.innerHTML === '✖') {
+    items.splice(items[li.id],1)
+    resultsElem.showResults(items)
+  } else if (e.target.innerHTML === '✎') {
+    const cloneLi = li.cloneNode(true)
+    cloneLi.innerHTML = `<input value="${items[li.id]}"></input>
+    <span>
+      <button>&#9998;</button>
+    </span>`    
+    cloneLi.addEventListener('click', e => {
+      if (e.target.innerHTML === '✎') {
+        const inputValue = document.querySelector('li>input').value
+        items[li.id] = inputValue
+        resultsElem.showResults(items)
+      }
+    })
+    if (document.querySelectorAll('li>input').length < 1){li.after(cloneLi)}    
+  }
+})

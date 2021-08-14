@@ -29,11 +29,25 @@ ul {
   font-size: 18px;
 }
 
-ul li {
-  padding: 10px 20px;
+li {
+  padding: 6px 0px 6px 10px;
   border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+li button{
+  background: #EFEFEF;
+  border: 1px solid #ccc;
+  height: 35px;
+  width: 40px;
+  font-size: 14px;
+  cursor: pointer;
+}
+li input{
+  max-width: 245px;
+}
 .addButton {
   height: 40px;
   width: 40px;
